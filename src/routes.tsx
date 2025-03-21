@@ -4,6 +4,7 @@ import { RecipeDetails } from './pages/RecipeDetails';
 import { FavoriteRecipes } from './pages/FavoriteRecipes';
 import App from './App';
 
+
 export const router = createBrowserRouter([
   {
     path: '/',
