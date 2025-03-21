@@ -59,6 +59,14 @@ export const fetchRecipeDetails = async (id: string): Promise<Recipe> => {
   return response.data.meals[0];
 };
 
+export const getRecipesById = async (favorites: Recipe[]): Promise<Recipe[]> => {
+  const requests = favorites.map((recipe) =>
+    api.get(`/lookup.php?i=${recipe.idMeal}`)
+  );
+  const response = await Promise.all(requests);
+  return response.flatMap((res) => res.data.meals)
+};
+
 export const fetchCategories = async (): Promise<Category[]> => {
   const response = await api.get('/categories.php');
   return response.data.categories || [];

@@ -4,10 +4,12 @@ import { RecipeCard } from '../components/RecipeCard';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import clsx from 'clsx';
 import { Recipe } from '../api';
+import { useGetRecipesById } from '../hooks/useGetRecipesById';
 
 export function FavoriteRecipes() {
   const { favorites } = useFavorites();
   const [expandedInstructions, setExpandedInstructions] = useState<string[]>([]);
+  const { data: recipes } = useGetRecipesById(favorites);
   
   const toggleInstructions = (id: string) => {
     setExpandedInstructions((prev) =>
@@ -17,29 +19,29 @@ export function FavoriteRecipes() {
     );
   };
 
-  // const allIngredients = favorites.reduce((acc, recipe) => {
-  //   const ingredients = Array.from({ length: 20 }, (_, i) => i + 1)
-  //     .map((i) => ({
-  //       ingredient: recipe[`strIngredient${i}`],
-  //       measure: recipe[`strMeasure${i}`],
-  //     }))
-  //     .filter(({ ingredient, measure }) => ingredient && measure);
+  const allIngredients = recipes?.reduce((acc, recipe) => {
+    const ingredients = Array.from({ length: 20 }, (_, i) => i + 1)
+      .map((i) => ({
+        ingredient: recipe[`strIngredient${i}`],
+        measure: recipe[`strMeasure${i}`],
+      }))
+      .filter(({ ingredient, measure }) => ingredient && measure);
 
-  //   ingredients.forEach(({ ingredient, measure }) => {
-  //     if (!acc[ingredient as string]) {
-  //       acc[ingredient as string] = [];
-  //     }
-  //     acc[ingredient as string].push(`${measure} (${recipe.strMeal})`);
-  //   });
+    ingredients.forEach(({ ingredient, measure }) => {
+      if (!acc[ingredient as string]) {
+        acc[ingredient as string] = [];
+      }
+      acc[ingredient as string].push(`${measure} (${recipe.strMeal})`);
+    });
 
-  //   return acc;
-  // }, {} as Record<string, string[]>);
+    return acc;
+  }, {} as Record<string, string[]>);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Favorite Recipes</h1>
 
-      {favorites.length === 0 ? (
+      {recipes?.length === 0 ? (
         <div className="text-center text-gray-500">
           No favorite recipes yet. Add some recipes to your favorites!
         </div>
@@ -48,7 +50,7 @@ export function FavoriteRecipes() {
           <div>
             <h2 className="text-2xl font-semibold mb-4">Your Recipes</h2>
             <div className="grid gap-6">
-              {favorites.map((recipe: Recipe) => (
+              {recipes?.map((recipe: Recipe) => (
                 <div key={recipe?.idMeal}>
                   <RecipeCard recipe={recipe} />
                   <button
@@ -72,13 +74,13 @@ export function FavoriteRecipes() {
                         : 'max-h-0'
                     )}
                   >
-                    {/* <div className="prose max-w-none bg-gray-50 p-4 rounded-lg">
+                    <div className="prose max-w-none bg-gray-50 p-4 rounded-lg">
                       {recipe.strInstructions.split('\n').map((instruction, index) => (
                         <p key={index} className="mb-2">
                           {instruction}
                         </p>
                       ))}
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -88,7 +90,7 @@ export function FavoriteRecipes() {
           <div>
             <h2 className="text-2xl font-semibold mb-4">Combined Ingredients</h2>
             <div className="bg-white rounded-lg shadow-md p-6">
-              {/* {Object.entries(allIngredients).map(([ingredient, measures]) => (
+              {Object.entries(allIngredients ?? {}).map(([ingredient, measures]) => (
                 <div key={ingredient} className="mb-4">
                   <h3 className="font-medium text-lg text-gray-900">
                     {ingredient}
@@ -101,7 +103,7 @@ export function FavoriteRecipes() {
                     ))}
                   </ul>
                 </div>
-              ))} */}
+              ))}
             </div>
           </div>
         </div>
