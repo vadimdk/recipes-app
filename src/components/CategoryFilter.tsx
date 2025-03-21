@@ -16,20 +16,21 @@ export function CategoryFilter({
     queryFn: fetchCategories,
   });
 
+  const allCategories = [{ strCategory: 'All' }, ...categories];
   return (
     <div className="flex flex-wrap gap-2">
-      <button
+      {/* <button
         onClick={() => onSelectCategory('')}
         className={clsx(
           'px-4 py-2 rounded-full text-sm font-medium transition-colors',
-          selectedCategory === ''
+          selectedCategory === 'All'
             ? 'bg-blue-500 text-white'
             : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
         )}
       >
         All
-      </button>
-      {categories.map((category) => (
+      </button> */}
+      {allCategories.map((category) => (
         <button
           key={category.strCategory}
           onClick={() => onSelectCategory(category.strCategory)}

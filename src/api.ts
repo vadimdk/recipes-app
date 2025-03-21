@@ -54,7 +54,12 @@ export const fetchAllRecipes = async () => {
     category: res.config.url?.split('=')[1],
     meals: res.data.meals
   })));
-  return responses.flatMap(res => res.data.meals); 
+  const mappedData = new Map(responses.map(res => ([res.config.url?.split('=')[1], res.data.meals])));
+  console.log('mappedData', mappedData);
+    // category: res.config.url?.split('=')[1],
+    // meals: res.data.meals})))
+  // return responses.flatMap(res => res.data.meals); 
+  return mappedData;
 };
 
 export const fetchRecipes = async (): Promise<Recipe[]> => {
