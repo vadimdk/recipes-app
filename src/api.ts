@@ -23,10 +23,10 @@ export interface FavoritesResponse {
   favorites: Recipe[];
 }
 
-// export const fetchRecipes = async (search: string): Promise<Recipe[]> => {
-  // const response = await api.get(`/search.php?s=${search}`);
-//   return response.data.meals || [];
-// };
+export const searchRecipes = async (search: string): Promise<Recipe[]> => {
+  const response = await api.get(`/search.php?s=${search}`);
+  return response.data.meals || [];
+};
 
 const categories = [
   'Beef',
@@ -50,22 +50,8 @@ export const fetchAllRecipes = async () => {
     api.get(`/filter.php?c=${category}`)
   );
   const responses = await Promise.all(requests);
-  console.log('responses', responses.map(res => ({
-    category: res.config.url?.split('=')[1],
-    meals: res.data.meals
-  })));
   const mappedData = new Map(responses.map(res => ([res.config.url?.split('=')[1], res.data.meals])));
-  console.log('mappedData', mappedData);
-    // category: res.config.url?.split('=')[1],
-    // meals: res.data.meals})))
-  // return responses.flatMap(res => res.data.meals); 
   return mappedData;
-};
-
-export const fetchRecipes = async (): Promise<Recipe[]> => {
-  
-  const response = await api.get(`/filter.php?c=Breakfast`);
-  return response.data.meals || [];
 };
 
 export const fetchRecipeDetails = async (id: string): Promise<Recipe> => {

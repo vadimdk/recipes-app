@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchAllRecipes, fetchRecipes } from '../api';
+import { fetchAllRecipes } from '../api';
 
 // export function useRecipes(search: string) {
 //   return useQuery({
@@ -13,6 +13,5 @@ export function useRecipes() {
   return useQuery({
     queryKey: ['allRecipes'],
     queryFn: () => fetchAllRecipes(),
-    // enabled: search.length > 0,
   });
 }
