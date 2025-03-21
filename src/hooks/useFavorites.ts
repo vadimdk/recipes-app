@@ -6,7 +6,7 @@ export function useFavorites() {
 
   const { data: favorites = [] } = useQuery({
     queryKey: ['favorites'],
-    queryFn: getFavorites,
+    queryFn: () => getFavorites(),
   });
 
   const addFavoriteMutation = useMutation({
@@ -23,7 +23,7 @@ export function useFavorites() {
     },
   });
 
-  const isFavorite = (id: string) => favorites.some(recipe => recipe.idMeal === id);
+  const isFavorite = (id: string) => favorites.some((recipe: Recipe) => recipe.idMeal === id);
 
   return {
     favorites,

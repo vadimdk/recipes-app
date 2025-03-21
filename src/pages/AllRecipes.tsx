@@ -1,10 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRecipes } from "../hooks/useRecipes"
 import { SearchBar } from "../components/SearchBar"
 import { CategoryFilter } from "../components/CategoryFilter"
 import { RecipeCard } from "../components/RecipeCard"
 import { Pagination } from "../components/Pagination"
-import { useQuery } from "@tanstack/react-query"
 import { Recipe } from "../api"
 import { useSearchRecipes } from "../hooks/useSearchRecipes"
 
@@ -41,6 +40,11 @@ export function AllRecipes() {
         currentPage * ITEMS_PER_PAGE
       )
 
+  useEffect(() => {
+    setSearch("")
+  }, [category])
+
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8 space-y-4">
@@ -51,7 +55,7 @@ export function AllRecipes() {
         />
       </div>
 
-      {isLoading ? (
+      {isLoading || isSearchLoads ? (
         <div className="flex items-center justify-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
         </div>

@@ -67,7 +67,7 @@ export const fetchCategories = async (): Promise<Category[]> => {
 // Local storage functions for favorites
 const FAVORITES_KEY = 'recipe-favorites';
 
-export const getFavorites = async (): Promise<Recipe[]> => {
+export const getFavorites = async () => {
   const favorites = localStorage.getItem(FAVORITES_KEY);
   return favorites ? JSON.parse(favorites) : [];
 };
@@ -81,7 +81,7 @@ export const addToFavorites = async (recipe: Recipe): Promise<Recipe[]> => {
 
 export const removeFromFavorites = async (id: string): Promise<Recipe[]> => {
   const favorites = await getFavorites();
-  const newFavorites = favorites.filter(recipe => recipe.idMeal !== id);
+  const newFavorites = favorites.filter((recipe: { idMeal: string; }) => recipe.idMeal !== id);
   localStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites));
   return newFavorites;
 };
