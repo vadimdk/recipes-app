@@ -48,7 +48,7 @@ export function FavoriteRecipes() {
       ) : (
         <div className="grid gap-8 md:grid-cols-2">
           <div>
-            <h2 className="text-2xl font-semibold mb-4">Your Recipes</h2>
+           {recipes?.length ?<h2 className="text-2xl font-semibold mb-4">Your Recipes</h2> : null} 
             <div className="grid gap-6">
               {recipes?.map((recipe: Recipe) => (
                 <div key={recipe?.idMeal}>
@@ -87,7 +87,7 @@ export function FavoriteRecipes() {
             </div>
           </div>
 
-          <div>
+         {recipes?.length ? ( <div>
             <h2 className="text-2xl font-semibold mb-4">Combined Ingredients</h2>
             <div className="bg-white rounded-lg shadow-md p-6">
               {Object.entries(allIngredients ?? {}).map(([ingredient, measures]) => (
@@ -105,7 +105,7 @@ export function FavoriteRecipes() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> ) : null}
         </div>
       )}
     </div>
